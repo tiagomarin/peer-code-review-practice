@@ -1,4 +1,4 @@
-// import './style.scss'; PLEASE IGNORE THIS LINE
+import './style.scss';
 import createTask from './modules/createTask';
 import deleteTask from './modules/deleteTask';
 import getArr from './modules/getDataFromLocalStorage';
@@ -75,73 +75,6 @@ clearButton.addEventListener('click', () => {
   renderList();
 });
 
-// DRAG AND DROP
-listPlaceholder.addEventListener('dragstart', (e) => {
-  if (e.target.classList.contains('task-text')) {
-    const index = e.target.parentElement.parentElement.id;
-    console.log(index);
-    localStorage.setItem('startDragIndex', JSON.stringify(index));
-  }
-});
-
-const dragTarget = listPlaceholder.getElementsByTagName('li');
-console.log('LI Items', dragTarget);
-
-// const dragTargetArr = [...dragTarget];
-const dragTargetArr = Array.from(dragTarget);
-console.log('Array from : ', dragTargetArr);
-
-dragTargetArr.forEach((target) => {
-  target.addEventListener('dragover', dragOver);
-  target.addEventListener('drop', dragDrop);
-});
-
-// listPlaceholder.addEventListener('drag', (e) => {
-//   if (e.target.classList.contains("task-text")) {
-
-//     draggable.addEventListener("dragstart", dragStart);
-//   }
-// })
-// if (e.target.tagName === 'LI') {
-//   const dragTarget = e.target
-//   dragTarget.addEventListener("dragover", dragOver);
-//   dragTarget.addEventListener("drop", dragDrop);
-// }
-
-// listPlaceholder.addEventListener('drag', (e) => {
-
-//   if (e.target.tagName === 'LI') {
-//     const dragTarget = e.target
-//     dragTarget.addEventListener("dragstart", dragStart);
-//     dragTarget.addEventListener("dragover", dragOver);
-//     dragTarget.addEventListener("drop", dragDrop);
-//   }
-// });
-
-function dragOver(e) {
-  console.log('dragOver');
-  // colocar margin-top: 40px;
-  e.preventDefault();
-}
-
-function dragDrop() {
-  let dragEndIndex = [...this.classList];
-  dragEndIndex = +dragEndIndex[dragEndIndex.length - 1];
-  const dragStartIndex = JSON.parse(localStorage.getItem('startDragIndex'));
-  console.log('startIndex: ', dragStartIndex);
-  console.log('dropIndex: ', dragEndIndex);
-  swapItems(dragStartIndex, dragEndIndex);
-}
-
-function swapItems(fromIndex, toIndex) {
-  const taskListArr = getArr();
-  taskListArr[fromIndex - 1].Index = toIndex;
-  taskListArr[toIndex - 1].Index = fromIndex;
-  taskListArr.sort((a, b) => a.Index - b.Index);
-  saveInLocalStorage(taskListArr);
-  clearList();
-  renderList();
-}
 
 // SHOW LIST ON HTML
 renderList();
